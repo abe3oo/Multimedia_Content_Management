@@ -1,18 +1,20 @@
-import psycopg2
+import psycopg2 as ps
 
 from config import load_config
 
-def connect(config):
-    """ Connect to the PostgreSQL database server """
-    try:
-        # connecting to the PostgreSQL server
-        with psycopg2.connect(**config) as conn:
-            print('Connected to the PostgreSQL server.')
-            return conn
-    except (psycopg2.DatabaseError, Exception) as error:
-        print(error)
+config = load_config()
 
 
-if __name__ == '__main__':
-    config = load_config()
-    connect(config)
+
+
+
+"""
+
+
+sql = "SELECT * FROM users;"
+cnn = ps.connect(**config)
+cur = cnn.cursor()
+cur.execute(sql)
+a = cur.fetchall()
+print(a)
+"""
