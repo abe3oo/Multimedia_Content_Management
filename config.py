@@ -35,7 +35,7 @@ def check_tagname(name):
     conn = psycopg2.connect(**config)
     cur = conn.cursor()
     sql = f"""
-    SELECT tag_name FROM tags WHERE tag_name = {name};
+    SELECT tag_name FROM tags WHERE tag_name = '{name}';
     """
     cur.execute(sql)
     result = cur.fetchall()
