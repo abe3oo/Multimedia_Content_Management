@@ -233,7 +233,7 @@ for i in article_result:
         select_keyword_sql = """
             SELECT keyword_id FROM keywords WHERE keyword_name = %s;
         """
-        keywords = i[2].split(",")
+        keywords = i[1].split(",")
         keyword_ids = []
         if keywords[0] != "":
             for i in keywords:
@@ -295,7 +295,7 @@ for i in article_result:
         select_keyword_sql = """
             SELECT keyword_id FROM keywords WHERE keyword_name = %s;
         """
-        keywords = i[2].split(",")
+        keywords = i[1].split(",")
         keyword_ids = []
         if keywords[0] != "":
             for i in keywords:
