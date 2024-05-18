@@ -170,7 +170,7 @@ for i in image_result:
                     print(e)
                 else:
                     conn.commit()
-    print(f"data imported with id {photo_id}.")
+    print(f"image imported with id {photo_id}.")
 cur.close()
 #<<<<
                     
@@ -334,6 +334,6 @@ for i in article_result:
                     print(e)
                 else:
                     conn.commit()
-    print(f"data imported with id {article_id}")
+    print(f"article imported with id {article_id}")
 cur.close()
 conn.close()
