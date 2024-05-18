@@ -43,6 +43,23 @@ def check_tagname(name):
         return True
     else:
         return False
+    
+def check_keywordname(name):
+    config = load_config()
+    conn = psycopg2.connect(**config)
+    cur = conn.cursor()
+    sql = f"""
+    SELECT keyword_name FROM keywords WHERE keyword_name = '{name}';
+    """
+    cur.execute(sql)
+    result = cur.fetchall()
+    if len(result)> 0:
+        return True
+    else:
+        return False
+    
+
+
 """
 if __name__ == '__main__':
     config = load_config()
