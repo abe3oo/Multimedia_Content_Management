@@ -11,11 +11,18 @@ class Person():
         self.age = age
 
 class image():
-    def __init__(self,photo_id,path,title,description,category):
+    def __init__(self,photo_id,path,title="null",description="null",category="null"):
         self.photo_id = photo_id
         self.path = path
         self.title = title
         self.description = description
+        self.category = category
+
+class article():
+    def __init__(self,article_id,content="null",title="null",category="null"):
+        self.article_id = article_id
+        self.content = content
+        self.title = title
         self.category = category
 
 def get_db_connection():
@@ -46,5 +53,18 @@ def get_images_byid(id):
     for i in a:
         img = image(i[0],i[1],i[2],i[3],i[4])
         result.append(img)
+    
+    return result
+
+def get_articles_byid(id):
+    sql = f"SELECT * FROM articles WHERE w_id = {id}"
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(sql)
+    a = cur.fetchall()
+    result = []
+    for i in a:
+        art = article(i[0],i[1],i[2],i[3])
+        result.append(art)
     
     return result

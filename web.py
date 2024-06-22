@@ -35,7 +35,8 @@ def photographers():
 @app.route('/photographers/<int:person_id>')
 def person_action(person_id):
     photos = get_images_byid(person_id)
-    return render_template('photos.html', photos=photos)
+    articless = get_articles_byid(person_id)
+    return render_template('photos.html', photos=photos, articless=articless)
 
 @app.route('/photos')
 def photos():

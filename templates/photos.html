@@ -28,5 +28,26 @@
             {% endfor %}
         </tbody>
     </table>
+    <h1>List of articles</h1>
+    <table border="1">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>content</th>
+              <TH>title</TH>
+              <th>category</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for article in articless %}
+          <tr>
+              <td>{{ article.article_id }}</td>
+              <td>{{ article.content }}</td>
+              <td>{{ article.title }}</td>
+              <td>{{ article.category }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
 </body>
 </html>
