@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Person List</title>
+</head>
+<body>
+    <h1>List of Persons</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>FName</th>
+                <TH>LName</TH>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for person in persons %}
+            <tr>
+                <td><a href="{{ url_for('person_action', person_id=person.id) }}">{{ person.id }}</a></td>
+                <td>{{ person.fname }}</td>
+                <td>{{ person.lname }}</td>
+                <td>{{ person.age }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

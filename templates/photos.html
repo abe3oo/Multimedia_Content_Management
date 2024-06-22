@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Photos{% endblock %}
+
+{% block content %}
+  <h1>Photos</h1>
+  <ul>
+    <li><a href="{{ url_for('photos', category='all') }}">All</a></li>
+    <li><a href="{{ url_for('photos', category='nature') }}">Nature</a></li>
+    <li><a href="{{ url_for('photos', category='portrait') }}">Portrait</a></li>
+  </ul>
+  <ul>
+    {% for photo in photos %}
+      <li>{{ photo.title }} - Category: {{ photo.category }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

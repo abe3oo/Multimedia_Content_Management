@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}My Flask App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Homepage</a></li>
+        <li><a href="{{ url_for('photographers') }}">Photographers/Writers</a></li>
+        <li><a href="{{ url_for('photos') }}">Images</a></li>
+        <li><a href="{{ url_for('articles') }}">Articles</a></li>
+      </ul>
+    </nav>
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
