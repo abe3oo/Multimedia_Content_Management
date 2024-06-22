@@ -71,7 +71,7 @@ def get_images_categorys():
     conn.close()
     return result
 def get_image_by_category(category):
-    sql = f"SELECT * FROM images WHERE category = {category}"
+    sql = f"SELECT * FROM images WHERE category ILIKE '{category}'"
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute(sql)
@@ -86,6 +86,20 @@ def get_image_by_category(category):
 
 def get_articles_byid(id):
     sql = f"SELECT * FROM articles WHERE w_id = {id}"
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(sql)
+    a = cur.fetchall()
+    result = []
+    for i in a:
+        art = article(i[0],i[1],i[2],i[3])
+        result.append(art)
+    cur.close()
+    conn.close()
+    return result
+
+def get_articles_by_category(category):
+    sql = f"SELECT * FROM articles WHERE category ILIKE '{category}'"
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute(sql)

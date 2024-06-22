@@ -49,7 +49,8 @@ def photos():
 @app.route('/articles')
 def articles():
     category = request.args.get('category')
-    return render_template('articles.html',category=category)
+    articless = get_articles_by_category(category)
+    return render_template('articles_only.html',articless=articless)
 
 
 if __name__ == '__main__':
