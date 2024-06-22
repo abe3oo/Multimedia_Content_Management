@@ -53,7 +53,35 @@ def get_images_byid(id):
     for i in a:
         img = image(i[0],i[1],i[2],i[3],i[4])
         result.append(img)
-    
+    cur.close()
+    conn.close()
+    return result
+
+def get_images_categorys():
+    sql = f"SELECT category FROM images;"
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(sql)
+    a = cur.fetchall()
+    result = []
+    for i in a:
+        if i[0] not in result:
+            result.append(i[0])
+    cur.close()
+    conn.close()
+    return result
+def get_image_by_category(category):
+    sql = f"SELECT * FROM images WHERE category = {category}"
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(sql)
+    a = cur.fetchall()
+    result = []
+    for i in a:
+        img = image(i[0],i[1],i[2],i[3],i[4])
+        result.append(img)
+    cur.close()
+    conn.close()
     return result
 
 def get_articles_byid(id):
@@ -66,5 +94,18 @@ def get_articles_byid(id):
     for i in a:
         art = article(i[0],i[1],i[2],i[3])
         result.append(art)
-    
+    cur.close()
+    conn.close()
+    return result
+
+def get_article_categorys():
+    sql = f"SELECT category FROM articles;"
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(sql)
+    a = cur.fetchall()
+    result = []
+    for i in a:
+        if i[0] not in result:
+            result.append(i[0])
     return result

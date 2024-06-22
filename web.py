@@ -24,8 +24,9 @@ class Person(db.Model):
 @app.route('/')
 
 def index():
-    categories = ['Nature', 'Portraits', 'Abstract', 'Urban', 'Wildlife']
-    return render_template('index.html',categories=categories)
+    p_categories = get_images_categorys()
+    a_categories = get_article_categorys()
+    return render_template('index.html',p_categories=p_categories,a_categories=a_categories)
 
 @app.route('/photographers')
 def photographers():
@@ -41,11 +42,14 @@ def person_action(person_id):
 
 @app.route('/photos')
 def photos():
-    return render_template('photos.html')
+    category = request.args.get('category')
+    photos = get_image_by_category(category)
+    return render_template('photos_only.html',photos=photos)
 
 @app.route('/articles')
 def articles():
-    return render_template('articles.html')
+    category = request.args.get('category')
+    return render_template('articles.html',category=category)
 
 
 if __name__ == '__main__':
