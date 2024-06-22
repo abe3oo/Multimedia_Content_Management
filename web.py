@@ -24,7 +24,8 @@ class Person(db.Model):
 @app.route('/')
 
 def index():
-    return render_template('index.html')
+    categories = ['Nature', 'Portraits', 'Abstract', 'Urban', 'Wildlife']
+    return render_template('index.html',categories=categories)
 
 @app.route('/photographers')
 def photographers():
@@ -40,34 +41,11 @@ def person_action(person_id):
 
 @app.route('/photos')
 def photos():
-    category = request.args.get('category')
-    conn = get_db_connection()
-    cur = conn.cursor()
-    if category:
-        cur.execute('SELECT * FROM images;')
-        photos = cur.fetchall()
-    else:
-        cur.execute('SELECT * FROM images;')
-        photos = cur.fetchall()
-    cur.close()
-    conn.close()
-    return render_template('photos.html', photos=photos)
+    return render_template('photos.html')
 
 @app.route('/articles')
 def articles():
-    category = request.args.get('category')
-    conn = get_db_connection()
-    cur = conn.cursor()
-    if category:
-        cur.execute('SELECT * FROM articles;')
-        articles = cur.fetchall()
-        
-    else:
-        cur.execute('SELECT * FROM articles;')
-        articles = cur.fetchall()
-    cur.close()
-    conn.close()
-    return render_template('articles.html', articles=articles)
+    return render_template('articles.html')
 
 
 if __name__ == '__main__':
