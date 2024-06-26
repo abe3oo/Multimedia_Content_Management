@@ -43,6 +43,7 @@ def person_action(person_id):
 @app.route('/photos')
 def photos():
     category = request.args.get('category')
+    
     photos = get_image_by_category(category)
     return render_template('photos_only.html',photos=photos)
 
