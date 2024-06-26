@@ -7,11 +7,11 @@ lst1 = []
 lst2 = []
 config = load_config()
 
-photo_path = "D:/backup windows 10/pic/Cosmos-flowers-lead.jpg"
-api_token = "BQPZ-Vovn-L5TF-oH4i-NAZ"
+#photo_path = "D:/backup windows 10/pic/Cosmos-flowers-lead.jpg"
+api_token = "1Fdo-vfrC-CECB-JO0z-TC"
 api_url = "https://server.phototag.ai/api/keywords"
 
-def fetch_not_complite_path():
+def fetch_not_complete_path():
     conn = ps.connect(**config)
     cur = conn.cursor()
     allmissedpath = []
@@ -22,13 +22,23 @@ def fetch_not_complite_path():
     LEFT JOIN phototag ON images.photo_id = phototag.photo_id
     WHERE phototag.photo_id IS NULL;
     """
-    cur.execute(sql)
-    result = cur.fetchall()
+    try:
+        cur.execute(sql)
+    except Exception as e:
+        print(e)
+    else:
+        result = cur.fetchall()
+
     for i in result:
         if i[1] not in allmissedpath:
             allmissedpath.append(i[1])
-    cur.execute(sql2)
-    result2 = cur.fetchall()
+    try:
+        cur.execute(sql2)
+    except Exception as e:
+        print(e)
+    else:
+        result2 = cur.fetchall()
+
     for i in result2:
         if i[0] not in allmissedpath:
             allmissedpath.append(i[0])
@@ -52,7 +62,9 @@ def fetch_additional_info(photo_path):
             return None
 
 def fill_db_missitems():
-    allmissespath = fetch_not_complite_path()
+    print("finding not completed path items ... ")
+    allmissespath = fetch_not_complete_path()
+    print("finded ...")
     conn = ps.connect(**config)
     cur = conn.cursor()
     sql = """
@@ -78,20 +90,123 @@ def fill_db_missitems():
     OR img.description IS NULL OR img.description = ''
     OR pt.photo_id IS NULL;
     """
-    cur.execute(sql)
-    missresult = cur.fetchall()
+    try:
+
+        cur.execute(sql)
+    except Exception as e:
+        print(e)
+    else:
+
+    
+        missresult = cur.fetchall()
+    finally:
+        cur.close()
     print(missresult)
     for i in allmissespath:
+        print("connecting to phototag.ai for additional info ...")
         result = fetch_additional_info(i)
+        print("completed ...")
+        print("updating data ...")
         for j in missresult:
             if i == j[1]:
                 if j[4] == 'Title is empty':
-                    pass
+                    newtitle = result['data']['title']
+                    updatetitlesql = f"""
+                        UPDATE images SET title = '{newtitle}' WHERE path = '{i}';
+                    """
+                    try:
+                        cur = conn.cursor()
+                        cur.execute(updatetitlesql)
+                    except Exception as e:
+                        print(e)
+                    else:
+                        conn.commit()
+                        print("title db for this item updated")
+                    finally:
+                        cur.close()
                 if j[5] == 'Description is empty':
-                    pass
+                    newdescription = result['data']['description']
+                    updateDescriptionsql = f"""
+                        UPDATE images SET description = '{newdescription}' WHERE path = '{i}';
+                    """
+                    try:
+                        cur = conn.cursor()
+                        cur.execute(updateDescriptionsql)
+                    except Exception as e:
+                        print(e)
+                    else:
+                        conn.commit()
+                        print("Description db for this item updated")
+                    finally:
+                        cur.close()
                 if j[6] == 'Tag is empty':
-                    pass
+                    newtags = result['data']['keywords']
+                    insert_tag_sql = """
+                        INSERT INTO tags(tag_name) VALUES
+                        (%s) RETURNING tag_id
+                        """
+                    select_tag_sql = """
+                        SELECT tag_id FROM tags WHERE tag_name = %s;
+                    """
+                    #tag --------------------------
+                    tag_ids = []
+                    for t in newtags:
+                        data = (t,)
+                        if check_tagname(i) == False:
+                            try:
+                                cur = conn.cursor()
+                                cur.execute(insert_tag_sql,data)
+                            except Exception as e:
+                                print(e)
+                            else:
+                                a = cur.fetchall()
+                                tag_ids.append(a[0][0])
+                                conn.commit()
+                            finally:
+                                cur.close()
+                        else:
+                            data = (i,)
+                            try:
+                                cur = conn.cursor()
+                                cur.execute(select_tag_sql, data)
+                            except Exception as e:
+                                print(e)
+                            else:
+                                a = cur.fetchall()
+                                tag_ids.append(a[0][0])
+                            finally:
+                                cur.close()
+                    #phototag ---------------------
+                    find_id_sql = f"""
+                        SELECT photo_id FROM images WHERE path = '{i}'
+                    """
+                    try:
+                        cur = conn.cursor()
+                        cur.execute(find_id_sql)
+                    except Exception as e:
+                        print(e)
+                    else:
 
+                        this_id = cur.fetchall()
+                    finally:
+                        cur.close()
+                    for tags in tag_ids:
+
+                        phototag_sql = """
+                            INSERT INTO phototag VALUES (%s,%s)
+                        """
+                        data = (this_id[0][0],tags)
+                        try:
+                            cur = conn.cursor()
+                            cur.execute(phototag_sql,data)
+                        except Exception as e:
+                            print(e)
+                        else:
+                            conn.commit()
+                            print("tag db for this item updated")
+                        finally:
+                            cur.close()
+        
         
 fill_db_missitems()
 
