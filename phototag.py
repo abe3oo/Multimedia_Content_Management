@@ -8,7 +8,7 @@ lst2 = []
 config = load_config()
 
 #photo_path = "D:/backup windows 10/pic/Cosmos-flowers-lead.jpg"
-api_token = "1Fdo-vfrC-CECB-JO0z-TC"
+api_token = "yEC7-4XEH-yFvz-suof-x6jq-k2j"
 api_url = "https://server.phototag.ai/api/keywords"
 
 def fetch_not_complete_path():
@@ -45,7 +45,8 @@ def fetch_not_complete_path():
     return allmissedpath
 
 def fetch_additional_info(photo_path):
-    with open(photo_path, 'rb') as image_file:
+    photofinalpath = photo_path.split("5500/")
+    with open(photofinalpath[1], 'rb') as image_file:
         files = {'file': image_file}
         headers = {
             'Authorization': f'Bearer {api_token}'

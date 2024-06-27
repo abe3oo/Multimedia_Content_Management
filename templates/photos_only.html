@@ -2,30 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Person List</title>
+    <title>Photo and Article List</title>
 </head>
 <body>
-    <h1>List of photos</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>path</th>
-                <TH>title</TH>
-                <th>description</th>
-                <th>category</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for image in photos %}
-            <tr>
-                <td>{{ image.photo_id }}</td>
-                <td>{{ image.path }}</td>
-                <td>{{ image.title }}</td>
-                <td>{{ image.description }}</td>
-                <td>{{ image.category }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+    <h1>List of Photos</h1>
+    {% for image in photos %}
+    <div>
+        <img src="{{ image.path }}" alt="{{ image.title }}" style="width:300px;height:auto;">
+        <p><strong>ID:</strong> {{ image.photo_id }}</p>
+        <p><strong>Title:</strong> {{ image.title }}</p>
+        <p><strong>Description:</strong> {{ image.description }}</p>
+        <p><strong>Category:</strong> {{ image.category }}</p>
+    </div>
+    <hr>
+    {% endfor %}
 </body>
 </html>

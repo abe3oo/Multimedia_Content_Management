@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Person List</title>
+</head>
+<body>
+    <h1>List of photos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>path</th>
+                <TH>title</TH>
+                <th>description</th>
+                <th>category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for image in photos %}
+            <tr>
+                <td>{{ image.photo_id }}</td>
+                <td>{{ image.path }}</td>
+                <td>{{ image.title }}</td>
+                <td>{{ image.description }}</td>
+                <td>{{ image.category }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h1>List of articles</h1>
+    <table border="1">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>content</th>
+              <TH>title</TH>
+              <th>category</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for article in articless %}
+          <tr>
+              <td>{{ article.article_id }}</td>
+              <td>{{ article.content }}</td>
+              <td>{{ article.title }}</td>
+              <td>{{ article.category }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</body>
+</html>
