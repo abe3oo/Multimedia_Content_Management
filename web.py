@@ -2,8 +2,6 @@ from flask import Flask, render_template, request
 from config import load_config
 from querys import *
 import psycopg2 as ps
-import sqlite3
-from flask_sqlalchemy import SQLAlchemy
 config = load_config()
 
 
