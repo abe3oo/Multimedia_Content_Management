@@ -110,13 +110,45 @@ def get_image_by_category(category):
         sql = "SELECT * FROM images;"
     else:
         sql = f"SELECT * FROM images WHERE category ILIKE '{category}'"
+    sql2 = """
+    SELECT t.tag_name
+    FROM tags t
+    JOIN phototag pt ON t.tag_id = pt.tag_id
+    WHERE pt.photo_id = %s;
+
+    """
     conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute(sql)
-    a = cur.fetchall()
+    try:
+        cur = conn.cursor()
+        cur.execute(sql)
+    except Exception as e:
+        print(e)
+    else:
+        a = cur.fetchall()
+    finally:
+        cur.close()
+    
     result = []
     for i in a:
-        img = image(i[0],i[1],i[2],i[3],i[4])
+        try:
+            cur = conn.cursor()
+            data = (i[0],)
+            cur.execute(sql2,data)
+        except Exception as e:
+            print(e)
+        else:
+            tags = cur.fetchall()
+        finally:
+            cur.close()
+        alltags = ""
+        r = 0
+        for b in tags:
+            if r == 0:
+                alltags = alltags + b[0]
+            else:
+                alltags = alltags +","+ b[0]
+            r+=1
+        img = image(i[0],i[1],i[2],i[3],i[4],alltags)
         result.append(img)
     cur.close()
     conn.close()
@@ -173,13 +205,44 @@ def get_articles_by_category(category):
         sql = f"SELECT * FROM articles;"
     else:
         sql = f"SELECT * FROM articles WHERE category ILIKE '{category}'"
+    sql2 = """
+    SELECT t.keyword_name
+    FROM keywords t
+    JOIN article_keyword pt ON t.keyword_id = pt.keyword_id
+    WHERE pt.article_id = %s;
+
+    """
     conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute(sql)
-    a = cur.fetchall()
+    try:
+        cur = conn.cursor()
+        cur.execute(sql)
+    except Exception as e:
+        print(e)
+    else:
+        a = cur.fetchall()
+    finally:
+        cur.close()
     result = []
     for i in a:
-        art = article(i[0],i[1],i[2],i[3])
+        try:
+            cur = conn.cursor()
+            data = (i[0],)
+            cur.execute(sql2,data)
+        except Exception as e:
+            print(e)
+        else:
+            keywords = cur.fetchall()
+        finally:
+            cur.close()
+        allkeywords = ""
+        r = 0
+        for b in keywords:
+            if r == 0:
+                allkeywords = allkeywords + b[0]
+            else:
+                allkeywords = allkeywords +","+ b[0]
+            r+=1
+        art = article(i[0],i[1],i[2],i[3],allkeywords)
         result.append(art)
     cur.close()
     conn.close()
