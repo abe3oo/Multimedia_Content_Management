@@ -37,7 +37,7 @@ To set up this project, follow these steps:
 
 5. Run the application:
     ```bash
-    flask run
+    python3 main.py
     ```
 
 ### Usage
