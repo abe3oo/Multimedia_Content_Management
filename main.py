@@ -11,7 +11,7 @@ def main():
     print("1: CSV to DB")
     print("2: Web App")
     print("3: Phototag.ai")
-    choice = input()
+    choice = input("enter command: ")
 
     if choice == '1':
         run_python('CSVtoDB.py')
