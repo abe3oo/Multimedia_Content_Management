@@ -1,5 +1,4 @@
 LETS DO THIS !!!
-Sure! Here's the README content translated into English for your project:
 
 ---
 
