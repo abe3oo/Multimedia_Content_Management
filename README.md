@@ -43,6 +43,7 @@ To set up this project, follow these steps:
 1. Place the CSV files in the designated directory.
 2. Run the data analysis script to process and store the data in the database.
 3. Access the Flask application to view the data.
+4. Run phototag.py to enhance metadata from PhotoTag.ai.
 
 ### API Integration
 The project integrates with the phototag.ai API to complete missing image information. Ensure you have the API key and update the configuration accordingly.
